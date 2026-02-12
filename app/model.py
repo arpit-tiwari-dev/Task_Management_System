@@ -20,6 +20,7 @@ class TaskCreate(BaseModel):
     title: str
     description: Optional[str] = ""
     priority: TaskPriority = TaskPriority.medium
+    create_github_issue: Optional[bool] = False
 
 
 class TaskUpdate(BaseModel):

@@ -1,3 +1,5 @@
 /myenv
 /app/__pycache__
 /app/db/__pycache__
+.env
+/app/services/__pycache__
