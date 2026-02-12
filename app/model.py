@@ -23,10 +23,10 @@ class TaskCreate(BaseModel):
 
 
 class TaskUpdate(BaseModel):
-    title: Optional[str]
-    description: Optional[str]
-    status: Optional[TaskStatus]
-    priority: Optional[TaskPriority]
+    title: Optional[str] = None
+    description: Optional[str] = None
+    status: Optional[TaskStatus] = None
+    priority: Optional[TaskPriority] = None
 
 
 class Task(BaseModel):

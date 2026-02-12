@@ -10,7 +10,7 @@ class TaskService:
     def __init__(self, repo: TaskRepository):
         self.repo = repo
 
-    def create_task(self, data: TaskCreate) -> Task:
+    async def create_task(self, data: TaskCreate) -> Task:
         now = datetime.utcnow()
 
         task = Task(
@@ -23,33 +23,33 @@ class TaskService:
             updated_at=now,
         )
 
-        return self.repo.create(task)
+        return await self.repo.create(task)
 
-    def list_tasks(self, skip: int, limit: int) -> List[Task]:
-        return self.repo.list(skip, limit)
+    async def list_tasks(self, skip: int, limit: int) -> List[Task]:
+        return await self.repo.list(skip, limit)
 
-    def get_task(self, task_id: str):
-        return self.repo.get(task_id)
+    async def get_task(self, task_id: str):
+        return await self.repo.get(task_id)
 
-    def update_task(self, task_id: str, data: TaskUpdate):
-        task = self.repo.get(task_id)
+    async def update_task(self, task_id: str, data: TaskUpdate):
+        task = await self.repo.get(task_id)
         if not task:
             return None
 
         updated = task.copy(update=data.dict(exclude_unset=True))
         updated.updated_at = datetime.utcnow()
 
-        return self.repo.update(task_id, updated)
+        return await self.repo.update(task_id, updated)
 
-    def delete_task(self, task_id: str):
-        return self.repo.delete(task_id)
+    async def delete_task(self, task_id: str):
+        return await self.repo.delete(task_id)
 
-    def complete_task(self, task_id: str):
-        task = self.repo.get(task_id)
+    async def complete_task(self, task_id: str):
+        task = await self.repo.get(task_id)
         if not task:
             return None
 
         task.status = TaskStatus.completed
         task.updated_at = datetime.utcnow()
 
-        return self.repo.update(task_id, task)
+        return await self.repo.update(task_id, task)
