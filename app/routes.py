@@ -5,6 +5,8 @@ from app.model import Task, TaskCreate, TaskUpdate
 from app.repository import TaskRepository
 from app.service import TaskService
 
+from app.db.mongo import task_collection
+
 router = APIRouter()
 
 repo = TaskRepository()
@@ -50,3 +52,16 @@ async def complete_task(task_id: str):
     if not task:
         raise HTTPException(404, "Task not found")
     return task
+
+@router.get("/health")
+async def health_check():
+    return {"status": "ok"}
+
+@router.get("/ready")
+async def readiness_check():
+    try:
+        # simple DB ping
+        await task_collection.database.command("ping")
+        return {"status": "ready"}
+    except Exception:
+        return {"status": "not ready"}
