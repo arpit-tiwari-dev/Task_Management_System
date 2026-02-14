@@ -5,8 +5,6 @@ from typing import List
 from app.model import Task, TaskCreate, TaskUpdate, TaskStatus
 from app.repository import TaskRepository
 
-from app.services.github_service import GithubService
-
 
 class TaskService:
     def __init__(self, repo: TaskRepository):
@@ -23,16 +21,8 @@ class TaskService:
             priority=data.priority,
             created_at=now,
             updated_at=now,
+            due_date=data.due_date,
         )
-
-        github_service = GithubService()
-
-        if data.create_github_issue:
-            try:
-                issue_id = github_service.create_issue(data.title , data.description)
-                task.external_reference_id = str(issue_id)
-            except Exception:
-                print("Issue Creation on Github Failed")
 
         return await self.repo.create(task)
 

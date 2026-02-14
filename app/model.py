@@ -21,6 +21,7 @@ class TaskCreate(BaseModel):
     description: Optional[str] = ""
     priority: TaskPriority = TaskPriority.medium
     create_github_issue: Optional[bool] = False
+    due_date: Optional[datetime] = None
 
 
 class TaskUpdate(BaseModel):
@@ -28,6 +29,7 @@ class TaskUpdate(BaseModel):
     description: Optional[str] = None
     status: Optional[TaskStatus] = None
     priority: Optional[TaskPriority] = None
+    due_date: Optional[datetime] = None
 
 
 class Task(BaseModel):
@@ -39,3 +41,4 @@ class Task(BaseModel):
     created_at: datetime
     updated_at: datetime
     external_reference_id: Optional[str] = None
+    due_date: Optional[datetime] = None

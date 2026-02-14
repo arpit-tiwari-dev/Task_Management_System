@@ -1,9 +1,10 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, BackgroundTasks
 from typing import List
 
 from app.model import Task, TaskCreate, TaskUpdate
 from app.repository import TaskRepository
 from app.service import TaskService
+from app.services.github_service import GithubService
 
 from app.db.mongo import task_collection
 
@@ -14,8 +15,23 @@ service = TaskService(repo)
 
 
 @router.post("/tasks", response_model=Task)
-async def create_task(data: TaskCreate):
-    return await service.create_task(data)
+async def create_task(data: TaskCreate , background_tasks: BackgroundTasks):
+
+    task = await service.create_task(data)
+
+    try:
+        github_service = GithubService()
+        if data.create_github_issue:
+            background_tasks.add_task(
+                github_service.create_issue,
+                task.id,
+                task.title,
+                task.description
+            )
+    except Exception as e:
+        print(f"Erorr during github Issue creation - {e}")
+    
+    return task
 
 
 @router.get("/tasks", response_model=List[Task])
