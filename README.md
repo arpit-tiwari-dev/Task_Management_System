@@ -33,7 +33,6 @@ This project was developed as part of a technical assessment to showcase backend
 - Dockerized application
 - Multi-container setup with MongoDB
 - Kubernetes deployment using Minikube
-- Autoscaling using Horizontal Pod Autoscaler
 - Health and readiness probes configured
 
 ---
