@@ -19,17 +19,15 @@ async def create_task(data: TaskCreate , background_tasks: BackgroundTasks):
 
     task = await service.create_task(data)
 
-    try:
-        github_service = GithubService()
-        if data.create_github_issue:
-            background_tasks.add_task(
-                github_service.create_issue,
-                task.id,
-                task.title,
-                task.description
-            )
-    except Exception as e:
-        print(f"Erorr during github Issue creation - {e}")
+    
+    github_service = GithubService()
+    if data.create_github_issue:
+        background_tasks.add_task(
+            github_service.create_issue,
+            task.id,
+            task.title,
+            task.description
+        )
     
     return task
 
