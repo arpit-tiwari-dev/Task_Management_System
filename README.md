@@ -34,6 +34,7 @@ This project was developed as part of a technical assessment to showcase backend
 - Multi-container setup with MongoDB
 - Kubernetes deployment using Minikube
 - Health and readiness probes configured
+- Autoscaling using Horizontal Pod Autoscaler
 
 ---
 
@@ -229,7 +230,6 @@ Possible extensions:
 * Retry mechanisms for SDK failures
 * Metrics & monitoring dashboards
 * Task search and filtering
-* Autoscaling for scalability
 
 ---
 
